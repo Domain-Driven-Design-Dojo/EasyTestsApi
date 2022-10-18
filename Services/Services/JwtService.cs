@@ -9,27 +9,32 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.DatabaseModels.UserModels;
 
 namespace Services
 {
     public class JwtService : IJwtService, IScopedDependency
     {
         private readonly SiteSettings _siteSetting;
-        private readonly SignInManager<User> signInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public JwtService(IOptionsSnapshot<SiteSettings> settings, SignInManager<User> signInManager)
+        public JwtService(IOptionsSnapshot<SiteSettings> settings, SignInManager<ApplicationUser> signInManager)
         {
             _siteSetting = settings.Value;
             this.signInManager = signInManager;
         }
 
-        public async Task<AccessToken> GenerateAsync(User user)
+        public async Task<AccessToken> GenerateAsync(ApplicationUser user)
         {
             var secretKey = Encoding.UTF8.GetBytes(_siteSetting.JwtSettings.SecretKey); // longer that 16 character
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
 
             var encryptionkey = Encoding.UTF8.GetBytes(_siteSetting.JwtSettings.EncryptKey); //must be 16 character
-            var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(encryptionkey), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
+            var encryptingCredentials = new EncryptingCredentials(
+                new SymmetricSecurityKey(encryptionkey), 
+                SecurityAlgorithms.Aes128KW, 
+                SecurityAlgorithms.Aes128CbcHmacSha256
+                );
 
             var claims = await _getClaimsAsync(user);
 
@@ -44,6 +49,7 @@ namespace Services
                 EncryptingCredentials = encryptingCredentials,
                 Subject = new ClaimsIdentity(claims)
             };
+            
 
             //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             //JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
@@ -58,23 +64,37 @@ namespace Services
             return new  AccessToken(securityToken);
         }
 
-        private async Task<IEnumerable<Claim>> _getClaimsAsync(User user)
+        private List<UserRole> ConvertClaimsToRoleList(IEnumerable<Claim> claims)
         {
-            var result = await signInManager.ClaimsFactory.CreateAsync(user);
+            var rolesList = new List<UserRole>();
+            foreach(Claim claim in claims)
+            {
+                rolesList.Add(new UserRole
+                {
+                    RoleName = claim.Value
+                });
+            }
+
+            return rolesList;
+        }
+
+        private async Task<IEnumerable<Claim>> _getClaimsAsync(ApplicationUser user)
+        {
+          //  var result = await signInManager.ClaimsFactory.CreateAsync(user);
             //add custom claims
-            var list = new List<Claim>(result.Claims);
-            list.Add(new Claim(ClaimTypes.MobilePhone, "09123456987"));
+           // var list = new List<Claim>(result.Claims);
+            //list.Add(new Claim(ClaimTypes.MobilePhone, "09123456987"));
 
             //JwtRegisteredClaimNames.Sub
-            //var securityStampClaimType = new ClaimsIdentityOptions().SecurityStampClaimType;
+            var securityStampClaimType = new ClaimsIdentityOptions().SecurityStampClaimType;
 
-            //var list = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Name, user.UserName),
-            //    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            //    //new Claim(ClaimTypes.MobilePhone, "09123456987"),
-            //    //new Claim(securityStampClaimType, user.SecurityStamp.ToString())
-            //};
+            var list = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                //new Claim(ClaimTypes.MobilePhone, "09123456987"),
+                new Claim(securityStampClaimType, user.SecurityStamp.ToString())
+            };
 
             //var roles = new Role[] { new Role { Name = "Admin" } };
             //foreach (var role in roles)

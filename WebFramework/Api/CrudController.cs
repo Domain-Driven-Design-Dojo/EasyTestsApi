@@ -1,12 +1,14 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Data.Repositories;
-using Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Data.Contracts;
+using DataTransferObjects.BasicDTOs;
+using DataTransferObjects.SharedModels;
+using Entities.DatabaseModels.CommonModels.BaseModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebFramework.Api
 {
@@ -25,20 +27,27 @@ namespace WebFramework.Api
             Mapper = mapper;
         }
 
+        //[HttpGet]
+        //public virtual async Task<ActionResult<List<TSelectDto>>> Get(CancellationToken cancellationToken)
+        //{
+        //    var list = await EntityFrameworkQueryableExtensions.ToListAsync<TSelectDto>(Repository.TableNoTracking.ProjectTo<TSelectDto>(Mapper.ConfigurationProvider), cancellationToken);
+
+        //    return Ok(list);
+        //}
+
         [HttpGet]
-        public virtual async Task<ActionResult<List<TSelectDto>>> Get(CancellationToken cancellationToken)
+        public virtual async Task<ActionResult<List<TDto>>> Get(CancellationToken cancellationToken)
         {
-            var list = await Repository.TableNoTracking.ProjectTo<TSelectDto>(Mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+            var list = await EntityFrameworkQueryableExtensions.ToListAsync<TDto>(Extensions.ProjectTo<TDto>(Repository.TableNoTracking, Mapper.ConfigurationProvider), cancellationToken);
 
             return Ok(list);
         }
 
+
         [HttpGet("{id}")]
         public virtual async Task<ApiResult<TSelectDto>> Get(TKey id, CancellationToken cancellationToken)
         {
-            var dto = await Repository.TableNoTracking.ProjectTo<TSelectDto>(Mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(p => p.Id.Equals(id), cancellationToken);
+            var dto = await EntityFrameworkQueryableExtensions.SingleOrDefaultAsync<TSelectDto>(Extensions.ProjectTo<TSelectDto>(Repository.TableNoTracking, Mapper.ConfigurationProvider), p => p.Id.Equals(id), cancellationToken);
 
             if (dto == null)
                 return NotFound();
@@ -53,23 +62,23 @@ namespace WebFramework.Api
 
             await Repository.AddAsync(model, cancellationToken);
 
-            var resultDto = await Repository.TableNoTracking.ProjectTo<TSelectDto>(Mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(p => p.Id.Equals(model.Id), cancellationToken);
+            var resultDto = await EntityFrameworkQueryableExtensions.SingleOrDefaultAsync<TSelectDto>(Extensions.ProjectTo<TSelectDto>(Repository.TableNoTracking, Mapper.ConfigurationProvider), p => p.Id.Equals(model.Id), cancellationToken);
 
             return resultDto;
         }
 
         [HttpPut]
-        public virtual async Task<ApiResult<TSelectDto>> Update(TKey id, TDto dto, CancellationToken cancellationToken)
-        {
-            var model = await Repository.GetByIdAsync(cancellationToken, id);
+      //public virtual async Task<ApiResult<TSelectDto>> Update(TKey id, TDto dto, CancellationToken cancellationToken)
+      public virtual async Task<ApiResult<TSelectDto>> Update(TDto dto, CancellationToken cancellationToken)
+
+      {
+         var model = await Repository.GetByIdAsync(cancellationToken, dto.Id);
 
             model = dto.ToEntity(Mapper, model);
 
             await Repository.UpdateAsync(model, cancellationToken);
 
-            var resultDto = await Repository.TableNoTracking.ProjectTo<TSelectDto>(Mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(p => p.Id.Equals(model.Id), cancellationToken);
+            var resultDto = await EntityFrameworkQueryableExtensions.SingleOrDefaultAsync<TSelectDto>(Extensions.ProjectTo<TSelectDto>(Repository.TableNoTracking, Mapper.ConfigurationProvider), p => p.Id.Equals(model.Id), cancellationToken);
 
             return resultDto;
         }
@@ -85,10 +94,10 @@ namespace WebFramework.Api
         }
     }
 
-    public class CrudController<TDto, TSelectDto, TEntity> : CrudController<TDto, TSelectDto, TEntity, int>
-        where TDto : BaseDto<TDto, TEntity, int>, new()
-        where TSelectDto : BaseDto<TSelectDto, TEntity, int>, new()
-        where TEntity : class, IEntity<int>, new()
+    public class CrudController<TDto, TSelectDto, TEntity> : CrudController<TDto, TSelectDto, TEntity, long>
+        where TDto : BaseDto<TDto, TEntity, long>, new()
+        where TSelectDto : BaseDto<TSelectDto, TEntity, long>, new()
+        where TEntity : class, IEntity<long>, new()
     {
         public CrudController(IRepository<TEntity> repository, IMapper mapper)
             : base(repository, mapper)
@@ -96,9 +105,9 @@ namespace WebFramework.Api
         }
     }
 
-    public class CrudController<TDto, TEntity> : CrudController<TDto, TDto, TEntity, int>
-        where TDto : BaseDto<TDto, TEntity, int>, new()
-        where TEntity : class, IEntity<int>, new()
+    public class CrudController<TDto, TEntity> : CrudController<TDto, TDto, TEntity, long>
+        where TDto : BaseDto<TDto, TEntity, long>, new()
+        where TEntity : class, IEntity<long>, new()
     {
         public CrudController(IRepository<TEntity> repository, IMapper mapper)
             : base(repository, mapper)

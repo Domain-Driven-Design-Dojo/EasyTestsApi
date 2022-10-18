@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using Entities.DatabaseModels.UserModels;
+using Services.Extensions;
 namespace Services.DataInitializer
 {
     public class UserDataInitializer : IDataInitializer
     {
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<Role> roleManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<AccRole> roleManager;
 
-        public UserDataInitializer(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public UserDataInitializer(UserManager<ApplicationUser> userManager, RoleManager<AccRole> roleManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -20,20 +21,20 @@ namespace Services.DataInitializer
         {
             if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
             {
-                roleManager.CreateAsync(new Role { Name = "Admin", Description = "Admin role" }).GetAwaiter().GetResult();
+                roleManager.CreateAsync(new AccRole { Name = "Admin", Description = "Admin role" }).GetAwaiter().GetResult();
             }
             if (!userManager.Users.AsNoTracking().Any(p => p.UserName == "Admin"))
             {
-                var user = new User
+                var user = new ApplicationUser
                 {
-                    Age = 25,
-                    FullName = "محمد جوادابراهیمی",
-                    Gender = GenderType.Male,
+                    //Age = 37,
+                    //FullName = "وحید محمدیان",
+                    //Gender = GenderType.Male,
                     UserName = "admin",
                     Email = "admin@site.com"
                 };
-                userManager.CreateAsync(user, "123456").GetAwaiter().GetResult();
-                userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();
+                userManager.CreateAsync(user, "12345678").GetAwaiter().GetResult();
+                userManager.AddToRoleDbAndCache(user, "Admin").GetAwaiter().GetResult();
             }
         }
     }

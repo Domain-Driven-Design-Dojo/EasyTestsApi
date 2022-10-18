@@ -1,8 +1,8 @@
-﻿using Common;
+﻿using System.Linq;
+using Common;
+using DataTransferObjects.SharedModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Collections.Generic;
-using System.Linq;
 using WebFramework.Api;
 
 namespace WebFramework.Filters

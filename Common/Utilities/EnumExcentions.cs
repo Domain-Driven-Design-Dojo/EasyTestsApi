@@ -44,6 +44,11 @@ namespace Common.Utilities
         {
             return Enum.GetValues(value.GetType()).Cast<Enum>().ToDictionary(p => Convert.ToInt32(p), q => ToDisplay(q));
         }
+
+        public static string ToDisplay(object invalidInputData)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum DisplayProperty

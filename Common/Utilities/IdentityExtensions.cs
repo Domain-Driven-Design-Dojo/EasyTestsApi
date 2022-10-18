@@ -19,15 +19,15 @@ namespace Common
             return claimsIdentity?.FindFirstValue(claimType);
         }
 
-        public static string GetUserId(this IIdentity identity)
+        public static long GetUserId(this IIdentity identity)
         {
-            return identity?.FindFirstValue(ClaimTypes.NameIdentifier);
+            return identity == null ? 0 : long.Parse(identity.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
         {
             var userId = identity?.GetUserId();
-            return userId.HasValue()
+            return userId > 0
                 ? (T)Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
                 : default(T);
         }

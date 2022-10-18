@@ -4,10 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Entities;
+using Entities.DatabaseModels.CommonModels.BaseModels;
 using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
 
-namespace Data.Repositories
+namespace Data.Contracts
 {
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
@@ -35,5 +36,6 @@ namespace Data.Repositories
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true);
         void UpdateRange(IEnumerable<TEntity> entities, bool saveNow = true);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true);
-    }
+      Task<List<TEntity>> GetEntitiesFromRawSqlAsync(string rawSql, OracleParameter[] parameters);
+   }
 }

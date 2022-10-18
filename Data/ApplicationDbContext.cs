@@ -6,11 +6,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Data.DbContextChanges;
+using Entities.DatabaseModels.CommonModels.BaseModels;
+using Entities.DatabaseModels.UserModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
-        //DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, AccRole, long>
+//DbContext
     {
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
@@ -32,6 +36,7 @@ namespace Data
 
             modelBuilder.RegisterAllEntities<IEntity>(entitiesAssembly);
             modelBuilder.RegisterEntityTypeConfiguration(entitiesAssembly);
+            modelBuilder.RenameIdentityTableName();
             modelBuilder.AddRestrictDeleteBehaviorConvention();
             modelBuilder.AddSequentialGuidForIdConvention();
             modelBuilder.AddPluralizingTableNameConvention();

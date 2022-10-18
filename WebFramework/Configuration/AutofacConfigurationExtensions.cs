@@ -1,9 +1,14 @@
 ﻿using Autofac;
 using Common;
 using Data;
+using Data.Contracts;
 using Data.Repositories;
-using Entities;
+using Entities.DatabaseModels.CommonModels.BaseModels;
 using Services;
+using Services.IServices;
+using Services.IServices.V2;
+using Services.Services;
+using Services.Services.V2;
 
 namespace WebFramework.Configuration
 {
@@ -11,8 +16,13 @@ namespace WebFramework.Configuration
     {
         public static void AddServices(this ContainerBuilder containerBuilder)
         {
-            //RegisterType > As > Liftetime
+            //RegisterType > As > LifeTime
             containerBuilder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            containerBuilder.RegisterGeneric(typeof(RepositoryWithActors<,>)).As(typeof(IRepositoryWithActors<,>)).InstancePerLifetimeScope();
+            containerBuilder.RegisterGeneric(typeof(ReportRepository<,>)).As(typeof(IReportRepository<,>)).InstancePerLifetimeScope();
+            containerBuilder.RegisterGeneric(typeof(CrudService<,,,,>)).As(typeof(ICrudService<,,,,>)).InstancePerLifetimeScope();
+            containerBuilder.RegisterGeneric(typeof(ReportService<,,,>)).As(typeof(IReportService<,,,>)).InstancePerLifetimeScope();
+            //containerBuilder.RegisterGeneric(typeof(FinanceService)).As(typeof(IFinanceService)).InstancePerLifetimeScope();
 
             var commonAssembly = typeof(SiteSettings).Assembly;
             var entitiesAssembly = typeof(IEntity).Assembly;
@@ -33,19 +43,8 @@ namespace WebFramework.Configuration
                 .AssignableTo<ISingletonDependency>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
-        }
 
-        //We don't need this since Autofac updates for ASP.NET Core 3.0+ Generic Hosting
-        //public static IServiceProvider BuildAutofacServiceProvider(this IServiceCollection services)
-        //{
-        //    var containerBuilder = new ContainerBuilder();
-        //    containerBuilder.Populate(services);
-        //
-        //    //Register Services to Autofac ContainerBuilder
-        //    containerBuilder.AddServices();
-        //
-        //    var container = containerBuilder.Build();
-        //    return new AutofacServiceProvider(container);
-        //}
+            
+        }
     }
 }

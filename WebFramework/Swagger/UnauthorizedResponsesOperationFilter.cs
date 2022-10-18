@@ -1,9 +1,10 @@
-﻿using Swashbuckle.AspNetCore.SwaggerGen;
+﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
-using System;
-using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using FilterDescriptor = Microsoft.AspNetCore.Mvc.Filters.FilterDescriptor;
 
 namespace WebFramework.Swagger
 {
@@ -23,10 +24,10 @@ namespace WebFramework.Swagger
             var filters = context.ApiDescription.ActionDescriptor.FilterDescriptors;
             var metadta = context.ApiDescription.ActionDescriptor.EndpointMetadata;
 
-            var hasAnonymous = filters.Any(p => p.Filter is AllowAnonymousFilter) || metadta.Any(p => p is AllowAnonymousAttribute);
+            var hasAnonymous = Enumerable.Any<FilterDescriptor>(filters, p => p.Filter is AllowAnonymousFilter) || Enumerable.Any<object>(metadta, p => p is AllowAnonymousAttribute);
             if (hasAnonymous) return;
 
-            var hasAuthorize = filters.Any(p => p.Filter is AuthorizeFilter) || metadta.Any(p => p is AuthorizeAttribute);
+            var hasAuthorize = Enumerable.Any<FilterDescriptor>(filters, p => p.Filter is AuthorizeFilter) || Enumerable.Any<object>(metadta, p => p is AuthorizeAttribute);
             if (!hasAuthorize) return;
 
             if (includeUnauthorizedAndForbiddenResponses)

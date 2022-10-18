@@ -7,23 +7,25 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Data.Contracts;
+using Entities.DatabaseModels.UserModels;
 
 namespace Data.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository, IScopedDependency
+    public class UserRepository : Repository<ApplicationUser>, IUserRepository, IScopedDependency
     {
         public UserRepository(ApplicationDbContext dbContext)
             : base(dbContext)
         {
         }
 
-        public Task<User> GetByUserAndPass(string username, string password, CancellationToken cancellationToken)
+        public Task<ApplicationUser> GetByUserAndPass(string username, string password, CancellationToken cancellationToken)
         {
             var passwordHash = SecurityHelper.GetSha256Hash(password);
             return Table.Where(p => p.UserName == username && p.PasswordHash == passwordHash).SingleOrDefaultAsync(cancellationToken);
         }
 
-        public Task UpdateSecurityStampAsync(User user, CancellationToken cancellationToken)
+        public Task UpdateSecurityStampAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             //user.SecurityStamp = Guid.NewGuid();
             return UpdateAsync(user, cancellationToken);
@@ -35,17 +37,17 @@ namespace Data.Repositories
         //    base.Update(entity, saveNow);
         //}
 
-        public Task UpdateLastLoginDateAsync(User user, CancellationToken cancellationToken)
+        public Task UpdateLastLoginDateAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            user.LastLoginDate = DateTimeOffset.Now;
+            user.LastLoginDate = DateTime.Now;
             return UpdateAsync(user, cancellationToken);
         }
 
-        public async Task AddAsync(User user, string password, CancellationToken cancellationToken)
+        public async Task AddAsync(ApplicationUser user, string password, CancellationToken cancellationToken)
         {
             var exists = await TableNoTracking.AnyAsync(p => p.UserName == user.UserName);
             if (exists)
-                throw new BadRequestException("نام کاربری تکراری است");
+                throw new BadRequestException(ApiResultStatusCode.UserNameIsExists.ToDisplay());
 
             var passwordHash = SecurityHelper.GetSha256Hash(password);
             user.PasswordHash = passwordHash;

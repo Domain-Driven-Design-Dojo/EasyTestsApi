@@ -1,6 +1,8 @@
 ﻿using Common.Utilities;
-using Entities;
+using Data.Contracts;
+using Entities.DatabaseModels.CommonModels.BaseModels;
 using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,7 @@ namespace Data.Repositories
         public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
+
             await Entities.AddAsync(entity, cancellationToken).ConfigureAwait(false);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -77,6 +80,15 @@ namespace Data.Repositories
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
+
+        public async Task<List<TEntity>> GetEntitiesFromRawSqlAsync(string rawSql, OracleParameter[] parameters)
+        {
+            //IQueryable<TEntity> query = Entities.FromSqlRaw(rawSql).AsNoTracking();
+            //List<TEntity> entities = await query.ToListAsync();
+
+            var res = await Entities.FromSqlRaw(rawSql, parameters).ToListAsync();
+            return res;
+        }
         #endregion
 
         #region Sync Methods
@@ -106,7 +118,7 @@ namespace Data.Repositories
             Assert.NotNull(entity, nameof(entity));
             Entities.Update(entity);
             if (saveNow)
-				DbContext.SaveChanges();
+                DbContext.SaveChanges();
         }
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities, bool saveNow = true)

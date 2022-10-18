@@ -57,6 +57,9 @@ namespace Common.Utilities
 
         public static string Fa2En(this string str)
         {
+            if (string.IsNullOrEmpty(str))
+                return str;
+
             return str.Replace("۰", "0")
                 .Replace("۱", "1")
                 .Replace("۲", "2")
@@ -102,5 +105,60 @@ namespace Common.Utilities
         {
             return str?.Length == 0 ? null : str;
         }
+
+        public static string AddToErrors(this string errors, string error)
+        {
+            errors = string.IsNullOrEmpty(errors) ? error : string.Concat(errors, "\n", error);
+            return errors;
+        }
+
+        public static string FormatDate(string DashSeperatedDate)
+        {
+            if (String.IsNullOrEmpty(DashSeperatedDate))
+                return DashSeperatedDate;
+            var dateParts = DashSeperatedDate.Split('-');
+            if (dateParts.Length != 3)
+                return DashSeperatedDate;
+
+            if (dateParts[1].Length == 1)
+                dateParts[1] = "0" + dateParts[1];
+
+            if (dateParts[2].Length == 1)
+                dateParts[2] = "0" + dateParts[2];
+
+            return $"{dateParts[0]}-{dateParts[1]}-{dateParts[2]}";
+
+        }
+        public static string FormatTimeHHMM(string ColumnSeperatedTimeHM)
+        {
+            if (String.IsNullOrEmpty(ColumnSeperatedTimeHM))
+                return ColumnSeperatedTimeHM;
+            var timeParts = ColumnSeperatedTimeHM.Split(':');
+            if (timeParts.Length != 2)
+                return ColumnSeperatedTimeHM;
+
+            string result = $"{timeParts[0].PadLeft(2, '0')}:{timeParts[1].PadLeft(2, '0')}";
+            return result;
+        }
+
+        public static bool IsDigitsOnly(this string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static string FirstCharToLowerCase(this string str)
+        {
+            if (string.IsNullOrEmpty(str) || char.IsLower(str[0]))
+                return str;
+
+            return char.ToLower(str[0]) + str.Substring(1);
+        }
+
     }
 }

@@ -1,4 +1,9 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Common;
 using Common.Utilities;
 using ElmahCore.Mvc;
 using Microsoft.AspNetCore.Builder;
@@ -9,10 +14,6 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace WebFramework.Swagger
 {
@@ -82,9 +83,12 @@ namespace WebFramework.Swagger
 
                 //Set summary of action if not already set
                 options.OperationFilter<ApplySummariesOperationFilter>();
+                //Shows upload dialog
+                options.OperationFilter<ApplyUploadFileOperationFilter>();
 
                 #region Add UnAuthorized to Response
                 //Add 401 response and security requirements (Lock icon) to actions that need authorization
+                //options.OperationFilter<UnauthorizedResponsesOperationFilter>(true, "OAuth2");
                 options.OperationFilter<UnauthorizedResponsesOperationFilter>(true, "OAuth2");
                 #endregion
 
@@ -103,16 +107,6 @@ namespace WebFramework.Swagger
                 //});
                 #endregion
 
-                //options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "OAuth2" }
-                //        },
-                //        Array.Empty<string>() //new[] { "readAccess", "writeAccess" }
-                //    }
-                //});
 
                 //OAuth2Scheme
                 options.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme
@@ -124,7 +118,8 @@ namespace WebFramework.Swagger
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri("/api/v1/users/Token", UriKind.Relative),
+                            //TokenUrl = new Uri("/api/v1/users/Token", UriKind.Relative),
+                            TokenUrl = new Uri("/api/v1/users/TokenFromForm", UriKind.Relative),
                             //AuthorizationUrl = new Uri("/api/v1/users/Token", UriKind.Relative)
                             //Scopes = new Dictionary<string, string>
                             //{
@@ -134,6 +129,7 @@ namespace WebFramework.Swagger
                         }
                     }
                 });
+
                 #endregion
 
                 #region Versioning
@@ -227,7 +223,7 @@ namespace WebFramework.Swagger
             app.UseReDoc(options =>
             {
                 options.SpecUrl("/swagger/v1/swagger.json");
-                //options.SpecUrl("/swagger/v2/swagger.json");
+                options.SpecUrl("/swagger/v2/swagger.json");
 
                 #region Customizing
                 //By default, the ReDoc UI will be exposed at "/api-docs"

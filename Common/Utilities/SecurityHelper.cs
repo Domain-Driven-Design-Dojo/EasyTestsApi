@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Common.Utilities
 {
     public static class SecurityHelper
     {
-        public static string GetSha256Hash(string input)
+        public static string GetSha256Hash(this string input)
         {
             //using (var sha256 = new SHA256CryptoServiceProvider())
             using (var sha256 = SHA256.Create())
@@ -15,6 +16,15 @@ namespace Common.Utilities
                 var byteHash = sha256.ComputeHash(byteValue);
                 return Convert.ToBase64String(byteHash);
                 //return BitConverter.ToString(byteHash).Replace("-", "").ToLower();
+            }
+        }
+        public static string GetSha256Hash(this byte[] input)
+        {
+            //using (var sha256 = new SHA256CryptoServiceProvider())
+            using (var sha256 = SHA256.Create())
+            {
+                var byteHash = sha256.ComputeHash(input);
+                return Convert.ToBase64String(byteHash);
             }
         }
     }

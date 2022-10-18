@@ -1,15 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Entities;
+using Entities.DatabaseModels.UserModels;
 
-namespace Data.Repositories
+namespace Data.Contracts
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<ApplicationUser>
     {
-        Task<User> GetByUserAndPass(string username, string password, CancellationToken cancellationToken);
+        Task<ApplicationUser> GetByUserAndPass(string username, string password, CancellationToken cancellationToken);
 
-        Task AddAsync(User user, string password, CancellationToken cancellationToken);
-        Task UpdateSecurityStampAsync(User user, CancellationToken cancellationToken);
-        Task UpdateLastLoginDateAsync(User user, CancellationToken cancellationToken);
+        Task AddAsync(ApplicationUser user, string password, CancellationToken cancellationToken);
+        Task UpdateSecurityStampAsync(ApplicationUser user, CancellationToken cancellationToken);
+        Task UpdateLastLoginDateAsync(ApplicationUser user, CancellationToken cancellationToken);
     }
 }

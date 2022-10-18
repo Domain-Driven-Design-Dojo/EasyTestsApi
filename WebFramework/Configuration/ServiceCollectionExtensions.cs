@@ -1,11 +1,18 @@
-﻿using Common;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Common;
 using Common.Exceptions;
 using Common.Utilities;
 using Data;
-using Data.Repositories;
+using Data.Contracts;
+using DataTransferObjects.GlobalDtos;
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
-using Entities;
+using Entities.DatabaseModels.UserModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +23,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebFramework.Configuration
 {
@@ -31,8 +32,10 @@ namespace WebFramework.Configuration
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
+                
                 options
-                    .UseSqlServer(configuration.GetConnectionString("SqlServer"));
+                    .UseSqlServer(GetSqlServerConnByEnvironment(configuration));
+                    //.UseOracle(GetOracleConnByEnvironment(configuration));
                 //Tips
                 //Automatic client evaluation is no longer supported. This event is no longer generated.
                 //This line is no longer needed.
@@ -120,8 +123,8 @@ namespace WebFramework.Configuration
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                var secretKey = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-                var encryptionKey = Encoding.UTF8.GetBytes(jwtSettings.EncryptKey);
+                var secretKey = Encoding.UTF8.GetBytes((string)jwtSettings.SecretKey);
+                var encryptionKey = Encoding.UTF8.GetBytes((string)jwtSettings.EncryptKey);
 
                 var validationParameters = new TokenValidationParameters
                 {
@@ -160,10 +163,20 @@ namespace WebFramework.Configuration
                     },
                     OnTokenValidated = async context =>
                     {
-                        var signInManager = context.HttpContext.RequestServices.GetRequiredService<SignInManager<User>>();
-                        var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-
+                        var signInManager = ServiceProviderServiceExtensions.GetRequiredService<SignInManager<ApplicationUser>>(context.HttpContext.RequestServices);
+                        var userRepository = ServiceProviderServiceExtensions.GetRequiredService<IUserRepository>(context.HttpContext.RequestServices);
+                        //var userManager = ServiceProviderServiceExtensions.GetRequiredService<UserManager<ApplicationUser>>(context.HttpContext.RequestServices);
                         var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
+                        var userId = claimsIdentity.GetUserId<long>();
+                        var user = await userRepository.GetByIdAsync(context.HttpContext.RequestAborted, userId);
+                        // var roles = await userManager.GetRolesAsync(user);
+                        var roles = AuthorizationCache.ActiveUsersRoles.Where(x => x.UserId == userId).FirstOrDefault()?.Roles;
+
+                        foreach (var item in roles)
+                        {
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, item));
+                        }
+
                         if (claimsIdentity.Claims?.Any() != true)
                             context.Fail("This token has no claims.");
 
@@ -172,8 +185,6 @@ namespace WebFramework.Configuration
                             context.Fail("This token has no security stamp");
 
                         //Find user and token from database and perform your custom validation
-                        var userId = claimsIdentity.GetUserId<int>();
-                        var user = await userRepository.GetByIdAsync(context.HttpContext.RequestAborted, userId);
 
                         //if (user.SecurityStamp != Guid.Parse(securityStamp))
                         //    context.Fail("Token security stamp is not valid.");
@@ -229,6 +240,44 @@ namespace WebFramework.Configuration
                 //options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version"), new UrlSegmentApiVersionReader())
                 // combine of [querystring] & [urlsegment]
             });
+        }
+
+        public static string GetOracleConnByEnvironment(IConfiguration configuration)
+        {
+            var ConnectionStringName = "OracleCs";
+            try
+            {
+                if (configuration["SiteSettings:Environment"].Length > 0)
+                    ConnectionStringName += configuration["SiteSettings:Environment"];
+            }
+            catch (Exception ex)
+            {
+
+                //Todo: log Exception
+                var logMessage = ex.Message;
+            }
+            var result = configuration.GetConnectionString(ConnectionStringName);
+            //Configs.OracleConnectionString = result;
+            return result;
+        }
+
+        public static string GetSqlServerConnByEnvironment(IConfiguration configuration)
+        {
+            var ConnectionStringName = "SqlServerCs";
+            try
+            {
+                if (configuration["SiteSettings:Environment"].Length > 0)
+                    ConnectionStringName += configuration["SiteSettings:Environment"];
+            }
+            catch (Exception ex)
+            {
+
+                //Todo: log Exception
+                var logMessage = ex.Message;
+            }
+            var result = configuration.GetConnectionString(ConnectionStringName);
+            //Configs.OracleConnectionString = result;
+            return result;
         }
     }
 }

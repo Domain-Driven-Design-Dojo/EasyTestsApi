@@ -1,10 +1,10 @@
-﻿using Common.Utilities;
+﻿using System;
+using System.Linq;
+using Common.Utilities;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Pluralize.NET;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.Linq;
 
 namespace WebFramework.Swagger
 {
@@ -25,42 +25,42 @@ namespace WebFramework.Swagger
 
             if (IsGetAllAction())
             {
-                if (!operation.Summary.HasValue())
+                if (!StringExtensions.HasValue(operation.Summary))
                     operation.Summary = $"Returns all {pluralizeName}";
             }
             else if (IsActionName("Post", "Create"))
             {
-                if (!operation.Summary.HasValue())
+                if (!StringExtensions.HasValue(operation.Summary))
                     operation.Summary = $"Creates a {singularizeName}";
 
-                if (!operation.Parameters[0].Description.HasValue())
-                    operation.Parameters[0].Description = $"A {singularizeName} representation";
+                //if (!StringExtensions.HasValue(operation.Parameters[0].Description))
+                //    operation.Parameters[0].Description = $"A {singularizeName} representation";
             }
             else if (IsActionName("Read", "Get"))
             {
-                if (!operation.Summary.HasValue())
+                if (!StringExtensions.HasValue(operation.Summary))
                     operation.Summary = $"Retrieves a {singularizeName} by unique id";
 
-                if (!operation.Parameters[0].Description.HasValue())
+                if (!StringExtensions.HasValue(operation.Parameters[0].Description))
                     operation.Parameters[0].Description = $"a unique id for the {singularizeName}";
             }
             else if (IsActionName("Put", "Edit", "Update"))
             {
-                if (!operation.Summary.HasValue())
+                if (!StringExtensions.HasValue(operation.Summary))
                     operation.Summary = $"Updates a {singularizeName} by unique id";
 
                 //if (!operation.Parameters[0].Description.HasValue())
                 //    operation.Parameters[0].Description = $"A unique id for the {singularizeName}";
 
-                if (!operation.Parameters[0].Description.HasValue())
+                if (!StringExtensions.HasValue(operation.Parameters[0].Description))
                     operation.Parameters[0].Description = $"A {singularizeName} representation";
             }
             else if (IsActionName("Delete", "Remove"))
             {
-                if (!operation.Summary.HasValue())
+                if (!StringExtensions.HasValue(operation.Summary))
                     operation.Summary = $"Deletes a {singularizeName} by unique id";
 
-                if (!operation.Parameters[0].Description.HasValue())
+                if (!StringExtensions.HasValue(operation.Parameters[0].Description))
                     operation.Parameters[0].Description = $"A unique id for the {singularizeName}";
             }
 
