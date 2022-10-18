@@ -31,7 +31,9 @@ namespace Entities.DatabaseModels.UserModels
                 IsActive = true,
                 LatinTitle = "Super Admins",
                 ModificationDate = new DateTime(2022,10,10),
-                Title = "سوپرادمین ها"
+                Title = "سوپرادمین ها",
+                CreatorId =1,
+                ModifierId =1
             });
       }
    }

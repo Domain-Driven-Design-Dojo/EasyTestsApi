@@ -31,8 +31,8 @@ namespace Entities.DatabaseModels.HrModels
                     LatinTitle = LatinTitle,
                     Id = (int)item,
                     IsActive = true,
-                    CreatorId = 2,
-                    ModifierId = 2,
+                    CreatorId = 1,
+                    ModifierId = 1,
                     CreationDate = new DateTime(2021, 1, 1),
                     ModificationDate = new DateTime(2021, 1, 1)
                 });

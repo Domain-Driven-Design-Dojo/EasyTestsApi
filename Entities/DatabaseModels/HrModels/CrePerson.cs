@@ -29,8 +29,8 @@ namespace Entities.DatabaseModels.HrModels
         public void Configure(EntityTypeBuilder<CrePerson> builder)
         {
             builder.HasOne(p => p.PersonType).WithMany(c => c.People).HasForeignKey(p => p.FPeopleTypesId);
-            //builder.HasOne(p => p.Creator).WithMany(c => c.CreatorPeople).HasForeignKey(p => p.CreatorId);
-            //builder.HasOne(p => p.Modifier).WithMany(c => c.ModifierPeople).HasForeignKey(p => p.ModifierId);
+            builder.HasOne(p => p.Creator).WithMany(c => c.CreatorPeople).HasForeignKey(p => p.CreatorId);
+            builder.HasOne(p => p.Modifier).WithMany(c => c.ModifierPeople).HasForeignKey(p => p.ModifierId);
             var adminPerson = new CrePerson() 
             {
                 Id =1,

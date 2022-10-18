@@ -27,12 +27,12 @@ namespace Entities.DatabaseModels.CommonModels.BaseModels
 
         public DateTime ModificationDate { get; set; }
 
-        //[ForeignKey("CreatorId")]
-        //public ApplicationUser Creator { get; set; }
+        [ForeignKey("CreatorId")]
+        public ApplicationUser Creator { get; set; }
 
-        //[ForeignKey("ModifierId")]
+        [ForeignKey("ModifierId")]
 
-        //public ApplicationUser Modifier { get; set; }
+        public ApplicationUser Modifier { get; set; }
     }
 
     public abstract class BaseEntity<TKey> : IEntity<TKey>
@@ -61,13 +61,13 @@ namespace Entities.DatabaseModels.CommonModels.BaseModels
         [Required]
         public DateTime ModificationDate { get; set; }
 
-        //[ForeignKey("CreatorId")]
-        //[Required]
-        //public ApplicationUser Creator { get; set; }
+        [ForeignKey("CreatorId")]
+        [Required]
+        public ApplicationUser Creator { get; set; }
 
-        //[ForeignKey("ModifierId")]
-        //[Required]
-        //public ApplicationUser Modifier { get; set; }
+        [ForeignKey("ModifierId")]
+        [Required]
+        public ApplicationUser Modifier { get; set; }
     }
 
     public abstract class BaseEntityWithActorsNoIdentity : BaseEntityWithActors<int>

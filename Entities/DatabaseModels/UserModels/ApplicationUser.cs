@@ -25,8 +25,8 @@ namespace Entities.DatabaseModels.UserModels
         [ForeignKey("FPeopleId")]
 
         public CrePerson Person { get; set; }
-        //public ICollection<CrePerson> CreatorPeople { get; set; }
-        //public ICollection<CrePerson> ModifierPeople { get; set; }
+        public ICollection<CrePerson> CreatorPeople { get; set; }
+        public ICollection<CrePerson> ModifierPeople { get; set; }
 
     }
 
@@ -48,11 +48,11 @@ namespace Entities.DatabaseModels.UserModels
                 SecurityStamp = Guid.Parse("55F82B99-AF47-426B-B09E-AF2D57E39F77").ToString("D"), //new Guid().ToString("D"),
                 CreationDate = new DateTime(2022, 10, 10),
                 ModificationDate = new DateTime(2022, 10, 10),
-                ConcurrencyStamp = Guid.Parse("0AE777A1-1159-4A21-B4BB-FD2998062E6A").ToString("D"),
+                ConcurrencyStamp = Guid.Parse("0AE777A1-1159-4A21-B4BB-FD2998062E6A").ToString("D")
             };
 
-            admin.PasswordHash = PassGenerate(admin, "superadmin");
-
+            //admin.PasswordHash = PassGenerate(admin, "superadmin");
+            admin.PasswordHash = "AQAAAAEAACcQAAAAELOWEI9Oc6M53pTbwJUTVPd6f0+gZCRwDi7zS3kvrnzsqAam11gJpcoiTdOhOW+ORQ==";
             builder.HasData(admin);
         }
 
