@@ -49,7 +49,7 @@ namespace Api
 
             services.AddCustomIdentity(_siteSetting.IdentitySettings);
 
-            //Add our IFileServerProvider implementation as a singleton
+            ////Add our IFileServerProvider implementation as a singleton
             //services.AddSingleton<IFileServerProvider>(new FileServerProvider(
             //    new List<FileServerOptions>
             //    {

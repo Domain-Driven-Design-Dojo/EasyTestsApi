@@ -18,7 +18,13 @@ namespace DataTransferObjects.CustomMapping
             services.AddAutoMapper(config =>
             {
                 config.AddCustomMappingProfile();
-                
+                //AddCustomMappingProfile((IMapperConfigurationExpression)config);
+
+                config.Advanced.BeforeSeal(configProvider =>
+                {
+                    configProvider.CompileMappings();
+                });
+
             }, assemblies);
 
             #region Deprecated (Use AutoMapper Instance instead)
@@ -34,8 +40,10 @@ namespace DataTransferObjects.CustomMapping
 
         public static void AddCustomMappingProfile(this IMapperConfigurationExpression config)
         {
-            //AddCustomMappingProfile(config, new[] {Assembly.GetEntryAssembly()});
-            config.AddCustomMappingProfile(Assembly.GetEntryAssembly());
+            //Before:
+            //config.AddCustomMappingProfile(Assembly.GetEntryAssembly());
+            //After: The Entry Assembly does not export dto types so dto mappings are not created. by changing to below code now it works correctly.
+            config.AddCustomMappingProfile(Assembly.GetExecutingAssembly());
         }
 
         public static void AddCustomMappingProfile(this IMapperConfigurationExpression config, params Assembly[] assemblies)

@@ -429,6 +429,7 @@ namespace Data.Migrations
                 table: "AccUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "ConfirmationCode", "CreationDate", "Email", "EmailConfirmed", "FPeopleId", "IsActive", "LastLoginDate", "LockoutEnabled", "LockoutEnd", "ModificationDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[] { 1L, 0, "0ae777a1-1159-4a21-b4bb-fd2998062e6a", null, new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@contoso.com", true, null, true, null, false, null, new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "SUPERADMIN@CONTOSO.COM", "SUPERADMIN", "AQAAAAEAACcQAAAAEDfEmt5lTB3ZSu0s2oBovId9paD120eNpego6TNzOjrOrIfS4QAs6TCnJb04wsjPsw==", null, true, "55f82b99-af47-426b-b09e-af2d57e39f77", false, "superadmin" });
+            migrationBuilder.Sql("Insert into \"AccUserRoles\" values (1,1);");
 
             migrationBuilder.InsertData(
                 table: "CrePeopleTypes",
