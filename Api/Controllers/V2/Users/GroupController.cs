@@ -1,18 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Common;
-using DataTransferObjects.DataTransferObjects.AccountsDTOs;
-using DataTransferObjects.DataTransferObjects.UserDTOs;
-using DataTransferObjects.SharedModels;
-using Entities.DatabaseModels.UserModels;
-using Microsoft.AspNetCore.Authorization;
+﻿using DataTransferObjects.DTOs.Shared.Users;
+using Entities.UserModels;
 using Microsoft.AspNetCore.Mvc;
-using Services.IServices;
-using Services.IServices.V2;
-using Services.Services.V2;
+using Services.ServicesContracts.BaseServices;
 using WebFramework.Api;
-using X.PagedList;
 
 namespace Api.Controllers.V2.Users
 {

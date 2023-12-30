@@ -3,9 +3,9 @@
 //using Common;
 //using Common.Exceptions;
 //using DataTransferObjects.DataTransferObjects.ConfigDTOs;
-//using DataTransferObjects.SharedModels;
+//using DataTransferObjects.DTOs.Shared;
 //using Microsoft.AspNetCore.Mvc;
-//using Services.IServices.V2;
+//using ServicesContracts.V2;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
@@ -18,20 +18,20 @@
 //    [ApiVersion("2")]
 //    public class ConfigController : BaseController
 //    {
-//        private readonly IPeopleTypeService _PeopleTypeService;
+//        private readonly IPersonsTypeService _PersonsTypeService;
 //        private readonly IConfigService _SysConfigService;
 //        public ConfigController(
-//            IPeopleTypeService peopleTypeService,
+//            IPersonsTypeService PersonsTypeService,
 //            IConfigService sysConfigService
 //            )
 //        {
-//            _PeopleTypeService = peopleTypeService;
+//            _PersonsTypeService = PersonsTypeService;
 //            _SysConfigService = sysConfigService;
 //        }
 //        [HttpPost("UpdateBasicInformations")]
 //        public async Task<ApiResult<ConfigListDto>> UpdateBasicInformations(CancellationToken cancellationToken)
 //        {
-//            var peopleTypes = await GlobalVariables.GetPeopleTypesAsync(_PeopleTypeService, cancellationToken, true);
+//            var PersonsTypes = await GlobalVariables.GetPersonsTypesAsync(_PersonsTypeService, cancellationToken, true);
 //            var sysConfig = await _SysConfigService.updateActiveSysConfigAsync(cancellationToken);
             
 //            return sysConfig;

@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.DbContextChanges;
-using Entities.DatabaseModels.CommonModels.BaseModels;
-using Entities.DatabaseModels.UserModels;
 using Microsoft.AspNetCore.Identity;
+using Entities.UserModels;
+using Entities.BaseModels;
 
 namespace Data
 {

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Common;
 using Data.Contracts;
-using Entities.DatabaseModels.HrModels;
+using Entities.PersonModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories

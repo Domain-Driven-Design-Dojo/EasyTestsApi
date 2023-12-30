@@ -22,7 +22,7 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CreCompany", b =>
+            modelBuilder.Entity("Entities.PersonModels.CreCompany", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace Data.Migrations
                     b.Property<string>("EconomicNo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("FPeopleId")
+                    b.Property<long>("FPersonsId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("NationalId")
@@ -58,7 +58,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FPeopleId")
+                    b.HasIndex("FPersonsId")
                         .IsUnique();
 
                     b.HasIndex("NationalId")
@@ -67,7 +67,7 @@ namespace Data.Migrations
                     b.ToTable("CreCompanies");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CreIndividual", b =>
+            modelBuilder.Entity("Entities.PersonModels.CreIndividual", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long>("FPeopleId")
+                    b.Property<long>("FPersonsId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
@@ -88,7 +88,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FPeopleId")
+                    b.HasIndex("FPersonsId")
                         .IsUnique();
 
                     b.ToTable("CreIndividuals");
@@ -97,12 +97,61 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1L,
-                            FPeopleId = 1L,
+                            FPersonsId = 1L,
                             FirstName = "Super Admin"
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePeopleType", b =>
+            modelBuilder.Entity("Entities.PersonModels.CrePerson", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("CreatorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FPersonsTypesId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ModifierId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("FPersonsTypesId");
+
+                    b.HasIndex("ModifierId");
+
+                    b.ToTable("CrePeople");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreationDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatorId = 1L,
+                            FPersonsTypesId = 1,
+                            IsActive = true,
+                            ModificationDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ModifierId = 1L
+                        });
+                });
+
+            modelBuilder.Entity("Entities.PersonModels.CrePersonType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -136,7 +185,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ModifierId");
 
-                    b.ToTable("CrePeopleTypes");
+                    b.ToTable("CrePersonTypes");
 
                     b.HasData(
                         new
@@ -163,56 +212,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePerson", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("CreatorId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("FPeopleTypesId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("ModifierId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("FPeopleTypesId");
-
-                    b.HasIndex("ModifierId");
-
-                    b.ToTable("CrePeople");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreationDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatorId = 1L,
-                            FPeopleTypesId = 1,
-                            IsActive = true,
-                            ModificationDate = new DateTime(2022, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifierId = 1L
-                        });
-                });
-
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.HrForgetPassword", b =>
+            modelBuilder.Entity("Entities.PersonModels.HrForgetPassword", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -223,7 +223,7 @@ namespace Data.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
-                    b.Property<long>("FPeopleId")
+                    b.Property<long>("FPersonsId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -242,7 +242,7 @@ namespace Data.Migrations
                     b.ToTable("HrForgetPasswords");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.SystemModels.SysErrorLog", b =>
+            modelBuilder.Entity("Entities.SystemModels.SysErrorLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,7 +273,7 @@ namespace Data.Migrations
                     b.ToTable("SysErrorLogs");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.SystemModels.SysErrorType", b =>
+            modelBuilder.Entity("Entities.SystemModels.SysErrorType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,7 +311,7 @@ namespace Data.Migrations
                     b.ToTable("SysErrorTypes");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.SystemModels.SysLog", b =>
+            modelBuilder.Entity("Entities.SystemModels.SysLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -339,7 +339,7 @@ namespace Data.Migrations
                     b.ToTable("SysLogs");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroup", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -395,7 +395,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroupRole", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroupRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +451,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroupUser", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroupUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -507,7 +507,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccRole", b =>
+            modelBuilder.Entity("Entities.UserModels.AccRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -557,7 +557,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.ApplicationUser", b =>
+            modelBuilder.Entity("Entities.UserModels.ApplicationUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -585,7 +585,7 @@ namespace Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("FPeopleId")
+                    b.Property<long?>("FPersonsId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -632,9 +632,9 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FPeopleId")
+                    b.HasIndex("FPersonsId")
                         .IsUnique()
-                        .HasFilter("[FPeopleId] IS NOT NULL");
+                        .HasFilter("[FPersonsId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -771,63 +771,44 @@ namespace Data.Migrations
                     b.ToTable("AccUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CreCompany", b =>
+            modelBuilder.Entity("Entities.PersonModels.CreCompany", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.HrModels.CrePerson", "Person")
+                    b.HasOne("Entities.PersonModels.CrePerson", "Person")
                         .WithOne("Company")
-                        .HasForeignKey("Entities.DatabaseModels.HrModels.CreCompany", "FPeopleId")
+                        .HasForeignKey("Entities.PersonModels.CreCompany", "FPersonsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CreIndividual", b =>
+            modelBuilder.Entity("Entities.PersonModels.CreIndividual", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.HrModels.CrePerson", "Person")
+                    b.HasOne("Entities.PersonModels.CrePerson", "Person")
                         .WithOne("IndividualPerson")
-                        .HasForeignKey("Entities.DatabaseModels.HrModels.CreIndividual", "FPeopleId")
+                        .HasForeignKey("Entities.PersonModels.CreIndividual", "FPersonsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePeopleType", b =>
+            modelBuilder.Entity("Entities.PersonModels.CrePerson", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
-                        .WithMany()
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
+                        .WithMany("CreatorPersons")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
-                        .WithMany()
-                        .HasForeignKey("ModifierId")
+                    b.HasOne("Entities.PersonModels.CrePersonType", "PersonType")
+                        .WithMany("Persons")
+                        .HasForeignKey("FPersonsTypesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Creator");
-
-                    b.Navigation("Modifier");
-                });
-
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePerson", b =>
-                {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
-                        .WithMany("CreatorPeople")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Entities.DatabaseModels.HrModels.CrePeopleType", "PersonType")
-                        .WithMany("People")
-                        .HasForeignKey("FPeopleTypesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
-                        .WithMany("ModifierPeople")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
+                        .WithMany("ModifierPersons")
                         .HasForeignKey("ModifierId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -839,24 +820,43 @@ namespace Data.Migrations
                     b.Navigation("PersonType");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.HrForgetPassword", b =>
+            modelBuilder.Entity("Entities.PersonModels.CrePersonType", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.HrModels.CrePerson", "Person")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Modifier");
+                });
+
+            modelBuilder.Entity("Entities.PersonModels.HrForgetPassword", b =>
+                {
+                    b.HasOne("Entities.PersonModels.CrePerson", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId");
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.SystemModels.SysErrorType", b =>
+            modelBuilder.Entity("Entities.SystemModels.SysErrorType", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -867,15 +867,15 @@ namespace Data.Migrations
                     b.Navigation("Modifier");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroup", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroup", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -886,27 +886,27 @@ namespace Data.Migrations
                     b.Navigation("Modifier");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroupRole", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroupRole", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.AccGroup", "Group")
+                    b.HasOne("Entities.UserModels.AccGroup", "Group")
                         .WithMany("GroupRoles")
                         .HasForeignKey("FGroupsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.AccRole", "Role")
+                    b.HasOne("Entities.UserModels.AccRole", "Role")
                         .WithMany("GroupRoles")
                         .HasForeignKey("FRolesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -921,27 +921,27 @@ namespace Data.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroupUser", b =>
+            modelBuilder.Entity("Entities.UserModels.AccGroupUser", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Creator")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.AccGroup", "Group")
+                    b.HasOne("Entities.UserModels.AccGroup", "Group")
                         .WithMany("GroupUsers")
                         .HasForeignKey("FGroupsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "Modifier")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", "User")
+                    b.HasOne("Entities.UserModels.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -956,18 +956,18 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.ApplicationUser", b =>
+            modelBuilder.Entity("Entities.UserModels.ApplicationUser", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.HrModels.CrePerson", "Person")
+                    b.HasOne("Entities.PersonModels.CrePerson", "Person")
                         .WithOne("User")
-                        .HasForeignKey("Entities.DatabaseModels.UserModels.ApplicationUser", "FPeopleId");
+                        .HasForeignKey("Entities.UserModels.ApplicationUser", "FPersonsId");
 
                     b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.AccRole", null)
+                    b.HasOne("Entities.UserModels.AccRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -976,7 +976,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", null)
+                    b.HasOne("Entities.UserModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -985,7 +985,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", null)
+                    b.HasOne("Entities.UserModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -994,13 +994,13 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.AccRole", null)
+                    b.HasOne("Entities.UserModels.AccRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", null)
+                    b.HasOne("Entities.UserModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1009,19 +1009,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("Entities.DatabaseModels.UserModels.ApplicationUser", null)
+                    b.HasOne("Entities.UserModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePeopleType", b =>
-                {
-                    b.Navigation("People");
-                });
-
-            modelBuilder.Entity("Entities.DatabaseModels.HrModels.CrePerson", b =>
+            modelBuilder.Entity("Entities.PersonModels.CrePerson", b =>
                 {
                     b.Navigation("Company");
 
@@ -1030,23 +1025,28 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccGroup", b =>
+            modelBuilder.Entity("Entities.PersonModels.CrePersonType", b =>
+                {
+                    b.Navigation("Persons");
+                });
+
+            modelBuilder.Entity("Entities.UserModels.AccGroup", b =>
                 {
                     b.Navigation("GroupRoles");
 
                     b.Navigation("GroupUsers");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.AccRole", b =>
+            modelBuilder.Entity("Entities.UserModels.AccRole", b =>
                 {
                     b.Navigation("GroupRoles");
                 });
 
-            modelBuilder.Entity("Entities.DatabaseModels.UserModels.ApplicationUser", b =>
+            modelBuilder.Entity("Entities.UserModels.ApplicationUser", b =>
                 {
-                    b.Navigation("CreatorPeople");
+                    b.Navigation("CreatorPersons");
 
-                    b.Navigation("ModifierPeople");
+                    b.Navigation("ModifierPersons");
                 });
 #pragma warning restore 612, 618
         }

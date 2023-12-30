@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using DataTransferObjects.BasicDTOs;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
+using Entities.BaseModels;
 
 namespace DataTransferObjects.CustomExpressions
 {

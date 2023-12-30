@@ -1,4 +1,4 @@
-﻿using Entities.DatabaseModels.CommonModels.BaseModels;
+﻿using Entities.BaseModels;
 using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
 using System;

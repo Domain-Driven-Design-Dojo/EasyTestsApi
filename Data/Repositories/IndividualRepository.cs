@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using Common.Utilities;
 using Data.Contracts;
-using Entities.DatabaseModels.HrModels;
+using Entities.PersonModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 

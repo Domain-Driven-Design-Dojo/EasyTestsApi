@@ -1,4 +1,4 @@
-﻿using Entities.DatabaseModels.UserModels;
+﻿using Entities.UserModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -13,7 +13,7 @@ namespace Data.DbContextChanges
     public static class ModelBuilderExtensions
     {
         /// <summary>
-        /// Singularizin table name like Posts to Post or People to Person
+        /// Singularizin table name like Posts to Post or Persons to Person
         /// </summary>
         /// <param name="modelBuilder"></param>
         public static void AddSingularizingTableNameConvention(this ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace Data.DbContextChanges
         }
 
         /// <summary>
-        /// Pluralizing table name like Post to Posts or Person to People
+        /// Pluralizing table name like Post to Posts or Person to Persons
         /// </summary>
         /// <param name="modelBuilder"></param>
         public static void AddPluralizingTableNameConvention(this ModelBuilder modelBuilder)

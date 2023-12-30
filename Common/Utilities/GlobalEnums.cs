@@ -4,8 +4,8 @@ namespace Common.Utilities
 {
     public static class GlobalEnums
     {
-        #region People
-        public enum PeopleType
+        #region Persons
+        public enum PersonsType
         {
             [Display(Name = "حقیقی")]
             Individual = 1,

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using Common.Utilities;
-using DataTransferObjects.BasicDTOs;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
+using Entities.BaseModels;
 
 namespace DataTransferObjects.CustomExpressions
 {
@@ -121,6 +122,7 @@ namespace DataTransferObjects.CustomExpressions
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 return t => true;
             }
 

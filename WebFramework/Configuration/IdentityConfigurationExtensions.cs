@@ -1,6 +1,6 @@
 ﻿using Common;
 using Data;
-using Entities.DatabaseModels.UserModels;
+using Entities.UserModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

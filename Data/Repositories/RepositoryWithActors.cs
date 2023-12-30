@@ -6,16 +6,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
-using Entities.DatabaseModels.CommonModels.BaseModels;
 using Data.ApplicationUtilities;
 using System.Linq.Expressions;
 using X.PagedList;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
+using Entities.BaseModels;
 
 namespace Data.Repositories
 {
-   public class RepositoryWithActors<TEntity, TKey> : IRepositoryWithActors<TEntity, TKey>
+    public class RepositoryWithActors<TEntity, TKey> : IRepositoryWithActors<TEntity, TKey>
         where TEntity : BaseEntityWithActors<TKey>, new()
     {
         protected readonly ApplicationDbContext DbContext;

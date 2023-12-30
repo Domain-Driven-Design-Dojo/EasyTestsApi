@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using Common.Exceptions;
 using Common.Utilities;
-using Entities.DatabaseModels.UserModels;
+using Entities.UserModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
