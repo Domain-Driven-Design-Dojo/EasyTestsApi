@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Entities.DatabaseModels.UserModels;
 using Services.Extensions;
+using Entities.UserModels;
+
 namespace Services.DataInitializer
 {
     public class UserDataInitializer : IDataInitializer

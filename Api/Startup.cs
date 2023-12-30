@@ -6,19 +6,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using Services.IServices;
-using Services.IServices.V2;
-using Services.Services;
-using Services.Services.V1;
-using Services.Services.V2;
-using System.Collections.Generic;
+using Services.Services.V1.Persons;
+using Services.Services.V1.Users;
+using Services.Services.V2.Persons;
+using Services.Services.V2.Users;
+using Services.ServicesContracts.V1.Persons;
+using Services.ServicesContracts.V1.Users;
+using Services.ServicesContracts.V2.Persons;
+using Services.ServicesContracts.V2.Users;
+using System;
 using WebFramework.Configuration;
 using WebFramework.Middlewares;
 using WebFramework.Swagger;
-using System;
-using Api.Utilities;
-using System.Threading;
 
 namespace Api
 {
@@ -82,13 +81,13 @@ namespace Api
             //services.AddControllers();
             services.AddSwagger();
 
-            services.AddScoped<Services.IServices.IUsersService, Services.Services.V1.UsersService>();
-            services.AddScoped<Services.IServices.V2.IUsersService, Services.Services.V2.UsersService>();
+            services.AddScoped<Services.ServicesContracts.V1.Users.IUsersService, Services.Services.V1.Users.UsersService>();
+            services.AddScoped<Services.ServicesContracts.V2.Users.IUsersService, Services.Services.V2.Users.UsersService>();
             services.AddScoped<IIndividualsService, IndividualsService>();
-            services.AddScoped<IPeopleService, PeopleService>();
-            services.AddScoped<Services.IServices.V2.IPeopleTypeService, Services.Services.V2.PeopleTypeService>();
-            services.AddScoped<Services.IServices.V2.IRoleService, Services.Services.V2.RoleService>();
-            services.AddScoped<Services.IServices.V2.IPersonService, Services.Services.V2.PersonService>();
+            services.AddScoped<Services.ServicesContracts.V1.Persons.IPersonsService, Services.Services.V1.Persons.PersonsService>();
+            services.AddScoped<IPersonsTypeService, PersonTypeService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<Services.ServicesContracts.V2.Persons.IPersonsService, Services.Services.V2.Persons.PersonsService>();
 
             //services.AddSysConfig();
 
@@ -112,7 +111,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
             IWebHostEnvironment env,
-            //IFileServerProvider fileServerprovider,
+             //IFileServerProvider fileServerprovider,
              IServiceProvider serviceProvider
            )
         {

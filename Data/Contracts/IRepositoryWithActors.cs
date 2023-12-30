@@ -4,14 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using Entities.BaseModels;
 using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
 using X.PagedList;
 
 namespace Data.Contracts
 {
-   public interface IRepositoryWithActors<TEntity, TKey> where TEntity : BaseEntityWithActors<TKey>
+    public interface IRepositoryWithActors<TEntity, TKey> where TEntity : BaseEntityWithActors<TKey>
    {
       DbSet<TEntity> Entities { get; }
       IQueryable<TEntity> Table { get; }

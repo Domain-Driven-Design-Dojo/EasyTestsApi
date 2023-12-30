@@ -187,7 +187,7 @@ using System.Threading.Tasks;
 using Common;
 using System.Net;
 using Common.Exceptions;
-using DataTransferObjects.SharedModels;
+using DataTransferObjects.DTOs.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;

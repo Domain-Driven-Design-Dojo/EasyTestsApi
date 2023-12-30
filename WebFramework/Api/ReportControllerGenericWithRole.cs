@@ -1,12 +1,12 @@
 ﻿using Common;
 using Common.Exceptions;
-using DataTransferObjects.BasicDTOs;
 using DataTransferObjects.CustomExpressions;
-using DataTransferObjects.SharedModels;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
+using DataTransferObjects.DTOs.Shared;
+using Entities.BaseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.IServices;
+using Services.ServicesContracts.BaseServices;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;

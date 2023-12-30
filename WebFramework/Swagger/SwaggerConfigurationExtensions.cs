@@ -45,7 +45,7 @@ namespace WebFramework.Swagger
             //Add services and configuration to use swagger
             services.AddSwaggerGen(options =>
             {
-                var xmlDocPath = Path.Combine(AppContext.BaseDirectory, "MyApi.xml");
+                var xmlDocPath = Path.Combine(AppContext.BaseDirectory, "Api.xml");
                 //show controller XML comments like summary
                 options.IncludeXmlComments(xmlDocPath, true);
 

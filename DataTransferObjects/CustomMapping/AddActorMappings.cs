@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoMapper;
 using Common.Utilities;
-using DataTransferObjects.BasicDTOs;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
+using Entities.BaseModels;
 
 namespace DataTransferObjects.CustomMapping
 {

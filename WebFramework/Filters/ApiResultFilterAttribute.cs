@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Common;
-using DataTransferObjects.SharedModels;
+using DataTransferObjects.DTOs.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebFramework.Api;

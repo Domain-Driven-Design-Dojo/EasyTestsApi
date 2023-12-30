@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
-using Entities.DatabaseModels.UserModels;
+using Entities.UserModels;
 
 namespace Data.Repositories
 {

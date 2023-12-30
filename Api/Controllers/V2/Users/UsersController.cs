@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Common;
-using DataTransferObjects.DataTransferObjects.AccountsDTOs;
-using DataTransferObjects.DataTransferObjects.UserDTOs;
-using DataTransferObjects.SharedModels;
-using Entities.DatabaseModels.UserModels;
+﻿using Common;
+using DataTransferObjects.DTOs.Shared;
+using DataTransferObjects.DTOs.Shared.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using Services.IServices.V2;
+using Services.ServicesContracts.V2.Users;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using WebFramework.Api;
 using X.PagedList;
 
@@ -136,7 +132,7 @@ namespace Api.Controllers.V2.Users
 
         [Authorize(Roles = "User-Detail,SuperAdmin")]
         [HttpPost("GetUsersFromRoleId")]
-        public async Task<ApiResult<IPagedList<ApplicationUserListDto>>> GetUsersFromRoleId(ApplicationUserSearchDto dto,CancellationToken cancellationToken)
+        public async Task<ApiResult<IPagedList<ApplicationUserListDto>>> GetUsersFromRoleId(ApplicationUserSearchDto dto, CancellationToken cancellationToken)
         {
             return await _userService.GetUsersByRoleId(dto, cancellationToken);
         }

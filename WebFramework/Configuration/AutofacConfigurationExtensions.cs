@@ -3,12 +3,11 @@ using Common;
 using Data;
 using Data.Contracts;
 using Data.Repositories;
-using Entities.DatabaseModels.CommonModels.BaseModels;
-using Services;
-using Services.IServices;
-using Services.IServices.V2;
-using Services.Services;
+using Entities.BaseModels;
+using ServicesContracts.V2;
 using Services.Services.V2;
+using Services.Services.BaseServices;
+using Services.ServicesContracts.BaseServices;
 
 namespace WebFramework.Configuration
 {

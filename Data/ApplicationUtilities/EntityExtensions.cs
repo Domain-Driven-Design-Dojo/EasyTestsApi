@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using Entities.BaseModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Data.ApplicationUtilities

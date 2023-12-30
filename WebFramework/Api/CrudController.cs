@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Data.Contracts;
-using DataTransferObjects.BasicDTOs;
-using DataTransferObjects.SharedModels;
-using Entities.DatabaseModels.CommonModels.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
+using DataTransferObjects.DTOs.Shared;
+using Entities.BaseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

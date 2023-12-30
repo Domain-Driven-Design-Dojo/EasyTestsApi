@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using Common;
 using Common.Exceptions;
 using Data.Contracts;
-using Entities.DatabaseModels.CommonModels.BaseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DataTransferObjects.BasicDTOs;
 using DataTransferObjects.CustomExpressions;
-using DataTransferObjects.SharedModels;
+using DataTransferObjects.DTOs.Shared;
 using X.PagedList;
 using Common.Utilities;
+using Entities.BaseModels;
+using DataTransferObjects.DTOs.BaseDtos;
 
 namespace WebFramework.Api
 {

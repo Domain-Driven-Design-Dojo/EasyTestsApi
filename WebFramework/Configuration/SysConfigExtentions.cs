@@ -1,10 +1,10 @@
 ﻿//using DataTransferObjects.DataTransferObjects.ConfigDTOs;
 //using DataTransferObjects.GlobalDtos;
-//using Entities.DatabaseModels.UserModels;
+//using Entities.UserModels;
 //using Microsoft.AspNetCore.Builder;
 //using Microsoft.AspNetCore.Identity;
 //using Microsoft.Extensions.DependencyInjection;
-//using Services.IServices.V2;
+//using ServicesContracts.V2;
 //using Services.Services.V2;
 //using System;
 //using System.Collections.Generic;

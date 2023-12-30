@@ -1,5 +1,4 @@
-﻿using DataTransferObjects.GlobalDtos;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Api.Utilities
@@ -37,7 +36,7 @@ namespace Api.Utilities
                 //Todo: log Exception
                 var logMessage = ex.Message;
             }
-            
+
             return configuration[setting];
         }
     }

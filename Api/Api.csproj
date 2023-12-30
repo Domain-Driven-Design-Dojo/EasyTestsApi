@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
-    <DocumentationFile>MyApi.xml</DocumentationFile>
+    <DocumentationFile>Api.xml</DocumentationFile>
     <UserSecretsId>f46f5b9d-6261-4c11-abd7-7dabfa9947b0</UserSecretsId>
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
@@ -40,6 +40,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebFramework\WebFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Api.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

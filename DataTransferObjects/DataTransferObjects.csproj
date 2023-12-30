@@ -6,15 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataTransferObjects\AccessoryDTOs\**" />
-    <Compile Remove="DataTransferObjects\BasicInfoDTOs\**" />
-    <EmbeddedResource Remove="DataTransferObjects\AccessoryDTOs\**" />
-    <EmbeddedResource Remove="DataTransferObjects\BasicInfoDTOs\**" />
-    <None Remove="DataTransferObjects\AccessoryDTOs\**" />
-    <None Remove="DataTransferObjects\BasicInfoDTOs\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
